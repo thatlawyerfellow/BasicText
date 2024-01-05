@@ -8,7 +8,7 @@ It is released under the GNU General Public License v.3 (GNU GPL v.3 accordingly
 
 BasicText is written in python. The BasicText.py file can be run as a .py script or it can be made an executable. 
 
-**To run it as a script:
+**To run it as a script:**
 
 ```bash
 cd /path/to/your/script/directory
@@ -65,4 +65,15 @@ Or on Windows:
 .\dist\BasicText.exe
 ```
 
-asicText should now run as an executable without the need for a Python interpreter. Copy the binary from the ./dist/ folder and move them into your Applications/Programs folder and then make a shortcut as per your liking. 
+BasicText should now run as an executable without the need for a Python interpreter. Copy the binary from the ./dist/ folder and move them into your Applications/Programs folder and then make a shortcut as per your liking. 
+
+**Screenshots**
+
+<img width="363" alt="5" src="https://github.com/thatlawyerfellow/BasicText/assets/108153663/67545a60-7f9c-40ef-8495-55703a516559">
+<img width="712" alt="4" src="https://github.com/thatlawyerfellow/BasicText/assets/108153663/ffb298a5-8448-4cb9-9f8e-391bcf0865e4">
+<img width="491" alt="3" src="https://github.com/thatlawyerfellow/BasicText/assets/108153663/525132bb-c823-4724-ab07-21df6bcc203c">
+<img width="712" alt="2" src="https://github.com/thatlawyerfellow/BasicText/assets/108153663/62cfb559-e88c-4da5-bb58-c142f97f84e5">
+<img width="712" alt="1" src="https://github.com/thatlawyerfellow/BasicText/assets/108153663/94970ea3-972c-46d6-9d6f-b3b86760e307">
+
+
+
