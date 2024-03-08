@@ -5,24 +5,28 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QTextEdit, QAction,
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtCore import Qt
 
+# Define the FindReplaceDialog class, which provides a dialog for finding and replacing text
 class FindReplaceDialog(QDialog):
     def __init__(self, parent=None):
         super(FindReplaceDialog, self).__init__(parent)
-        self.initUI()
+        self.initUI()  # Initialize the UI components
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layout = QVBoxLayout()  # Use a vertical box layout
 
+        # Create and configure UI components for finding text
         self.findLabel = QLabel("Find:", self)
         self.findLineEdit = QLineEdit(self)
         self.findButton = QPushButton("Find", self)
-        self.findButton.clicked.connect(self.find)
+        self.findButton.clicked.connect(self.find)  # Connect the find button to the find method
 
+        # Create and configure UI components for replacing text
         self.replaceLabel = QLabel("Replace with:", self)
         self.replaceLineEdit = QLineEdit(self)
         self.replaceButton = QPushButton("Replace", self)
-        self.replaceButton.clicked.connect(self.replace)
+        self.replaceButton.clicked.connect(self.replace)  # Connect the replace button to the replace method
 
+        # Add the components to the layout and set the layout for the dialog
         layout.addWidget(self.findLabel)
         layout.addWidget(self.findLineEdit)
         layout.addWidget(self.findButton)
@@ -31,67 +35,68 @@ class FindReplaceDialog(QDialog):
         layout.addWidget(self.replaceButton)
 
         self.setLayout(layout)
-        self.setWindowTitle("Find & Replace")
+        self.setWindowTitle("Find & Replace")  # Set the window title
 
     def find(self):
-        self.parent().findText(self.findLineEdit.text())
+        self.parent().findText(self.findLineEdit.text())  # Call the parent's findText method with the input text
 
     def replace(self):
-        self.parent().replaceText(self.findLineEdit.text(), self.replaceLineEdit.text())
+        self.parent().replaceText(self.findLineEdit.text(), self.replaceLineEdit.text())  # Call the parent's replaceText method with the input and replacement text
 
+# Define the TextEditor class, which represents the main window of the text editor application
 class TextEditor(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.initUI()  # Initialize the UI components
 
     def initUI(self):
-        self.textEdit = QTextEdit()
-        self.setCentralWidget(self.textEdit)
-        self.setWindowTitle('Basic Text')
+        self.textEdit = QTextEdit()  # Create a QTextEdit widget for text editing
+        self.setCentralWidget(self.textEdit)  # Set the QTextEdit widget as the central widget
+        self.setWindowTitle('Basic Text')  # Set the window title
 
-        # File Menu Actions
+        # Create actions for the file menu
         newAct = QAction('New', self)
         newAct.setShortcut('Ctrl+N')
-        newAct.triggered.connect(self.newFile)
+        newAct.triggered.connect(self.newFile)  # Connect the action to the newFile method
 
         openAct = QAction('Open', self)
         openAct.setShortcut('Ctrl+O')
-        openAct.triggered.connect(self.openFile)
+        openAct.triggered.connect(self.openFile)  # Connect the action to the openFile method
 
         saveAct = QAction('Save', self)
         saveAct.setShortcut('Ctrl+S')
-        saveAct.triggered.connect(self.saveFile)
+        saveAct.triggered.connect(self.saveFile)  # Connect the action to the saveFile method
 
         exitAct = QAction('Exit', self)
         exitAct.setShortcut('Ctrl+Q')
-        exitAct.triggered.connect(self.exitCall)
+        exitAct.triggered.connect(self.exitCall)  # Connect the action to the exitCall method
 
-        # Edit Menu Actions
+        # Create actions for the edit menu
         fontAct = QAction('Font', self)
-        fontAct.triggered.connect(self.fontDialog)
+        fontAct.triggered.connect(self.fontDialog)  # Connect the action to the fontDialog method
 
         findAct = QAction('Find', self)
         findAct.setShortcut('Ctrl+F')
-        findAct.triggered.connect(self.findDialog)
+        findAct.triggered.connect(self.findDialog)  # Connect the action to the findDialog method
 
-        # Alignment actions
+        # Create actions for text alignment
         alignLeftAct = QAction('Left Align', self)
         alignLeftAct.setShortcut('Ctrl+L')
-        alignLeftAct.triggered.connect(lambda: self.setAlignment(Qt.AlignLeft))
+        alignLeftAct.triggered.connect(lambda: self.setAlignment(Qt.AlignLeft))  # Set text alignment to left
 
         alignCenterAct = QAction('Center Align', self)
         alignCenterAct.setShortcut('Ctrl+C')
-        alignCenterAct.triggered.connect(lambda: self.setAlignment(Qt.AlignCenter))
+        alignCenterAct.triggered.connect(lambda: self.setAlignment(Qt.AlignCenter))  # Set text alignment to center
 
         alignRightAct = QAction('Right Align', self)
         alignRightAct.setShortcut('Ctrl+R')
-        alignRightAct.triggered.connect(lambda: self.setAlignment(Qt.AlignRight))
+        alignRightAct.triggered.connect(lambda: self.setAlignment(Qt.AlignRight))  # Set text alignment to right
 
         justifyAct = QAction('Justify', self)
         justifyAct.setShortcut ('Ctrl+J')
-        justifyAct.triggered.connect(lambda: self.setAlignment(Qt.AlignJustify))
+        justifyAct.triggered.connect(lambda: self.setAlignment(Qt.AlignJustify))  # Set text alignment to justify
 
-        # Menubar and adding actions
+        # Create the menu bar and add the actions to their respective menus
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(newAct)
@@ -111,75 +116,22 @@ class TextEditor(QMainWindow):
 
         helpMenu = menubar.addMenu('&Help')
         aboutAct = QAction('About', self)
-        aboutAct.triggered.connect(self.aboutDialog)
+        aboutAct.triggered.connect(self.aboutDialog)  # Connect the action to the aboutDialog method
         helpMenu.addAction(aboutAct)
 
-        self.setGeometry(300, 300, 600, 400)
+        self.setGeometry(300, 300, 600, 400)  # Set the initial size and position of the window
 
-    # File Operations
-    def newFile(self):
-        self.textEdit.clear()
+    # Define methods for file operations, text alignment, font dialog, find and replace dialog, and the about dialog
+    # These methods provide the functionality for the actions defined in the UI initialization
 
-    def openFile(self):
-        filename, _ = QFileDialog.getOpenFileName(self, 'Open File', '/home')
-        if filename:
-            with open(filename, 'r') as file:
-                self.textEdit.setText(file.read())
-
-    def saveFile(self):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Save File')
-        if filename:
-            with open(filename, 'w') as file:
-                text = self.textEdit.toPlainText()
-                file.write(text)
-
-    # Text Alignment
-    def setAlignment(self, alignment):
-        cursor = self.textEdit.textCursor()
-        block_format = cursor.blockFormat()
-        block_format.setAlignment(alignment)
-        cursor.mergeBlockFormat(block_format)
-        self.textEdit.mergeCurrentCharFormat(block_format)
-
-    # Other features
-    def fontDialog(self):
-        font, ok = QFontDialog.getFont()
-        if ok:
-            self.textEdit.setFont(font)
-
-    def findDialog(self):
-        dialog = FindReplaceDialog(self)
-        dialog.exec_()
-
-    def findText(self, query):
-        text = self.textEdit.toPlainText()
-        if query in text:
-            QMessageBox.information(self, 'Found!', f"'{query}' found in the text")
-        else:
-            QMessageBox.information(self, 'Not Found', f"'{query}' not found in the text")
-
-    def replaceText(self, query, replacement):
-        text = self.textEdit.toPlainText()
-        new_text = text.replace(query, replacement)
-        self.textEdit.setPlainText(new_text)
-        QMessageBox.information(self, 'Replaced', f"All occurrences of '{query}' have been replaced.")
-
-    def aboutDialog(self):
-        QMessageBox.about(self, "About Basic Text",
-                          "BasicText v.1 | Developer: Ajay Kumar | Copyright: © 2024 (MMXXIV) | License: BasicText is released under the latest version of the GNU General Public License (GNU GPL) and any future versions of the license. | Disclaimer of Warranty: BasicText is provided 'as is' without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the software is with you. Should the software prove defective, you assume the cost of all necessary servicing, repair, or correction. | This software is free; you are free to change and redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. | To get the Code: Visit the GitHub Repository https://github.com/thatlawyerfellow/BasicText")
-
-    def exitCall(self):
-        reply = QMessageBox.question(self, 'Message',
-                                     "Are you sure to quit?", QMessageBox.Yes |
-                                     QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            self.close()
-
+    # Entry point of the application
 def main():
-    app = QApplication(sys.argv)
-    ex = TextEditor()
-    ex.show()
-    sys.exit(app.exec_())
+    app = QApplication(sys.argv)  # Create an application instance
+    ex = TextEditor()  # Create an instance of the TextEditor
+    ex.show()  # Show the main window
+    sys.exit(app.exec_())  # Start the application's event loop
 
 if __name__ == '__main__':
     main()
+
+# (c) Ajay Kumar 2024 Released under the GNU GPL code available at https://github.com/thatlawyerfellow
