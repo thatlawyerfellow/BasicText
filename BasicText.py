@@ -122,9 +122,53 @@ class TextEditor(QMainWindow):
         self.setGeometry(300, 300, 600, 400)  # Set the initial size and position of the window
 
     # Define methods for file operations, text alignment, font dialog, find and replace dialog, and the about dialog
-    # These methods provide the functionality for the actions defined in the UI initialization
+    def newFile(self):
+        self.textEdit.clear()
 
-    # Entry point of the application
+    def openFile(self):
+        options = QFileDialog.Options()
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Text Files (*.txt);;All Files (*)", options=options)
+        if fileName:
+            with open(fileName, 'r') as file:
+                self.textEdit.setText(file.read())
+
+    def saveFile(self):
+        options = QFileDialog.Options()
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt);;All Files (*)", options=options)
+        if fileName:
+            with open(fileName, 'w') as file:
+                file.write(self.textEdit.toPlainText())
+
+    def exitCall(self):
+        self.close()
+
+    def fontDialog(self):
+        font, ok = QFontDialog.getFont()
+        if ok:
+            self.textEdit.setFont(font)
+
+    def findDialog(self):
+        self.findReplaceDialog = FindReplaceDialog(self)
+        self.findReplaceDialog.show()
+
+    def aboutDialog(self):
+        QMessageBox.about(self, "About", "Basic Text Editor\n(c) Ajay Kumar 2024\nReleased under the GNU GPL\nCode available at https://github.com/thatlawyerfellow")
+
+    def setAlignment(self, alignment):
+        self.textEdit.setAlignment(alignment)
+
+    def findText(self, text):
+        if not self.textEdit.find(text):
+            cursor = self.textEdit.textCursor()
+            cursor.movePosition(QTextCursor.Start)
+            self.textEdit.setTextCursor(cursor)
+            self.textEdit.find(text)
+
+    def replaceText(self, findText, replaceText):
+        text = self.textEdit.toPlainText()
+        self.textEdit.setText(text.replace(findText, replaceText))
+
+# Entry point of the application
 def main():
     app = QApplication(sys.argv)  # Create an application instance
     ex = TextEditor()  # Create an instance of the TextEditor
